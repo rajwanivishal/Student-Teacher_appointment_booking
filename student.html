@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Page</title>
+    <style>
+        * {
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+
+        .container {
+            margin: auto;
+            padding: 15px;
+            width: 380px;
+            border-radius: 10px;
+            box-shadow: 0 15px 20px rgba(0, 0, 1, 0.9);
+        }
+
+        h1 {
+            justify-content: center;
+        }
+
+        .elements {
+            width: 320px;
+            margin: 10px 8px;
+            padding: 12px 8px;
+        }
+
+        .submit-btn {
+            margin-left: 145px;
+            margin-top: 15px;
+            padding: 6px 22px;
+            background-color: rgb(208, 214, 213);
+            font-weight: bold;
+        }
+
+        .submit-btn:hover {
+            font-weight: bolder;
+            background-color: rgb(148, 148, 148);
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Welcome Students!</h1>
+    <div class="container" id="book-appointment">
+        <h1 class="title">Book Appointment</h1>
+        <label for="name" class="elements">Name :- </label>
+        <input type="text" id="stdname" placeholder="Name" class="elements" required><br>
+
+        <label for="tname" class="elements">Select Teacher :- </label>
+        <select name="teachers" id="selectteacher" class="elements">
+            <option value="teacher1">Teacher 1</option>
+            <option value="teacher2">Teacher 2</option>
+            <option value="teacher3">Teacher 3</option>
+        </select><br>
+
+        <label for="date" class="elements">Select Date :- </label>
+        <input type="date" id="apptdate" class="elements" required><br>
+
+        <label for="time" class="elements">Select Time :- </label>
+        <input type="time" id="appttime" class="elements" required><br>
+
+        <button type="submit" class="submit-btn" id="sbtbtn">Submit</button>
+    </div>
+
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+            apiKey: "AIzaSyANms8R_lsMdOOXxtDLH9Shmga5ctu2NXc",
+            authDomain: "student-teacher-appointm-101ea.firebaseapp.com",
+            databaseURL: "https://student-teacher-appointm-101ea-default-rtdb.firebaseio.com",
+            projectId: "student-teacher-appointm-101ea",
+            storageBucket: "student-teacher-appointm-101ea.appspot.com",
+            messagingSenderId: "683696122017",
+            appId: "1:683696122017:web:a193404940764d5fcae8e0",
+            measurementId: "G-K5ZLFSD1NG"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+
+        import { getDatabase, ref, get, set, child, update, remove } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+        const db = getDatabase();
+
+        var stdname = document.getElementById("stdname");
+        var selectteacher = document.getElementById("selectteacher");
+        var apptdate = document.getElementById("apptdate");
+        var appttime = document.getElementById("appttime");
+
+        // var sbtbtn = document.getElementById("sbtbtn");
+
+        function InsertData() {
+            set(ref(db, "Student/" + stdname.value), {
+                NameofStd: stdname.value,
+                Teacher: selectteacher.value,
+                AppointmentDate: apptdate.value,
+                AppointmentTime: appttime.value
+            })
+
+                .then(() => {
+                    alert("Appointment Booked Successfully");
+                })
+                .catch((error) => {
+                    alert("unsuccessfull, error" + error);
+                });
+        }
+
+        sbtbtn.addEventListener('click', InsertData);
+    </script>
+
+</body>
+
+</html>
